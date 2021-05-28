@@ -67,7 +67,7 @@ public class SheepAI : MonoBehaviour
 
     void LookForPlayer()
     {
-        Vector3 pos = DummyPlayer.instance.Position;
+        Vector3 pos = SheepTarget.instance.Position;
         Vector3 dir = (pos - transform.position).normalized;
         float dis = Vector3.Distance(transform.position, pos);
         float angle = Vector3.Angle(transform.forward, dir);
@@ -81,7 +81,7 @@ public class SheepAI : MonoBehaviour
             if (dis < viewDistance && angle < halfFOV)
             {
                 curState = State.SEE_PLAYER;
-                seeTimer = DummyPlayer.instance.stealthTimer;
+                seeTimer = SheepTarget.instance.stealthTimer;
             }
         }
         else
@@ -96,7 +96,7 @@ public class SheepAI : MonoBehaviour
     void PlayerInView()
     {
         seeTimer -= Time.deltaTime;
-        transform.LookAt(DummyPlayer.instance.transform, Vector3.up);
+        transform.LookAt(SheepTarget.instance.transform, Vector3.up);
         if(seeTimer < 0)
         {
             Debug.Log("GAME OVER!");
