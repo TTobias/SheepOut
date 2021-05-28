@@ -71,3 +71,4 @@
 
 # Crashlytics generated file
 /crashlytics-build.properties
+*.log
