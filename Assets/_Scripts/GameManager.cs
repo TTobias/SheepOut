@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
             TogglePause();
         }
 
-        if(Application.isEditor && !Paused)
+        if(Application.isEditor && !Paused && !WaitForContinueKey)
         {
             if (Input.GetKey(KeyCode.F1))
                 Time.timeScale = 4.0f;
