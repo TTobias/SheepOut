@@ -729,6 +729,10 @@ PrefabInstance:
       value: gate5m stone1 (4)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 8
       objectReference: {fileID: 0}
@@ -7708,6 +7712,10 @@ PrefabInstance:
       value: gate5m stone1 (6)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 8
       objectReference: {fileID: 0}
@@ -8457,6 +8465,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_Name
       value: gate5m stone1 (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -10390,6 +10402,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_Name
       value: gate5m stone1 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -13910,6 +13926,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_Name
       value: gate5m stone1 (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -20118,6 +20138,10 @@ PrefabInstance:
       value: gate5m stone1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 8
       objectReference: {fileID: 0}
@@ -20593,6 +20617,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_Name
       value: gate5m stone1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -23910,6 +23938,10 @@ PrefabInstance:
       value: gate5m stone1 (5)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 8
       objectReference: {fileID: 0}
@@ -26923,6 +26955,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_Name
       value: gate5m stone1 (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -30420,6 +30456,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_Name
       value: gate5m stone1 (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -35567,6 +35607,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_Name
       value: gate5m stone1 (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -43342,6 +43386,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_Name
       value: gate5m stone1 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 68f1ca2c185a6564e88f0ad510779f38, type: 3}
       propertyPath: m_StaticEditorFlags

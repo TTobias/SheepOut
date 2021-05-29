@@ -35,6 +35,7 @@ public class SheepAI : MonoBehaviour
 
     float lookAngle;
     float distanceToTarget;
+    bool stillInview;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -86,6 +87,7 @@ public class SheepAI : MonoBehaviour
         curWayPoint = path.wayPoints[curWayPointID];
         Vector3 target = curWayPoint.Position;
 
+        agent.isStopped = false;
         agent.destination = target;
         //normalize height
         target.y = transform.position.y;
@@ -161,6 +163,7 @@ public class SheepAI : MonoBehaviour
         {
             if (distanceToTarget > viewDistance * 1.2f || angle > halfFOV * 1.1f || viewBlocked)
             {
+                stillInview = false;
                 seeTimer -= Time.deltaTime * 2.4f;
                 if (seeTimer < 0.0f)
                 {
@@ -168,11 +171,16 @@ public class SheepAI : MonoBehaviour
                     enemyUI.gameObject.SetActive(false);
                 }
             }
+            else
+            {
+                stillInview = true;
+            }
         }
     }
 
     void PlayerInView()
     {
+        agent.isStopped = true;
         enemyUI.gameObject.SetActive(true);
         enemyUI.transform.rotation = Quaternion.Euler(0, cam.transform.rotation.eulerAngles.y, 0);
 
@@ -181,7 +189,8 @@ public class SheepAI : MonoBehaviour
         float normalizedDistance = (viewDistance - distanceToTarget) / viewDistance;
         float increaseFactor = 0.2f + normalizedDistance * 0.8f;
         float runFactor = WolfController.Running ? 2.4f : 1.0f;
-        seeTimer -= Time.deltaTime * increaseFactor * awarenessLevel * runFactor;
+        if(stillInview)
+            seeTimer -= Time.deltaTime * increaseFactor * awarenessLevel * runFactor;
 
 
         alertFill.fillAmount = ((stealthDuration - seeTimer) / stealthDuration);
@@ -202,10 +211,11 @@ public class SheepAI : MonoBehaviour
 
     void Chase()
     {
+        agent.isStopped = false;
         enemyUI.transform.rotation = Quaternion.Euler(0, cam.transform.rotation.eulerAngles.y, 0);
         agent.destination = SheepTarget.instance.Position;
-        agent.speed = 5.0f;
-        if (WolfController.Running) agent.speed = 7.0f;
+        agent.speed = 5.5f;
+        if (WolfController.Running) agent.speed = 7.5f;
         if (Vector3.Distance(transform.position, agent.destination) < 2.0f)
         {
             SceneManager.LoadScene(0);
