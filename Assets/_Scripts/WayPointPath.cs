@@ -22,15 +22,15 @@ public class WayPointPath : MonoBehaviour
             if (w == null) continue;
             Vector3 nextPos = w.Position;
             Gizmos.color = Color.blue;
-            DrawArrow(prevPos, nextPos);
+            DrawArrow(prevPos, nextPos, Color.blue);
             prevPos = nextPos;
         }
-        DrawArrow(first, prevPos);
+        DrawArrow(first, prevPos, Color.blue);
     }
 
-    void DrawArrow(Vector3 start, Vector3 end)
+    public static void DrawArrow(Vector3 start, Vector3 end, Color color)
     {
-        Gizmos.color = Color.blue;
+        Gizmos.color = color;
         Vector3 direction = (end - start).normalized;
         Vector3 right = Quaternion.LookRotation(direction) * 
             Quaternion.Euler(0, 180 + 20, 0) * new Vector3(0, 0, 1);
