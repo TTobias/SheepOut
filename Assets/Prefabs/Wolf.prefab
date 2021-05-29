@@ -217,9 +217,9 @@ MonoBehaviour:
   cam: {fileID: 0}
   player: {fileID: 0}
   speed: 3
-  gravity: 3
+  gravity: 1
   velocity: {x: 0, y: 0, z: 0}
-  sensitivity: 100
+  sensitivity: 350
   xRotation: 0
 --- !u!136 &7194893041557594510
 CapsuleCollider:
