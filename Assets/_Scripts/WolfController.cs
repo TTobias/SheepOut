@@ -88,6 +88,9 @@ public class WolfController : MonoBehaviour
 
     public void LateUpdate()
     {
+        if (Time.timeScale == 0)
+            return;
+
         InputRotation.x = Input.GetAxis("Mouse X") * sensitivity;
         InputRotation.y = Input.GetAxis("Mouse Y") * sensitivity;
         
