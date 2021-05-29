@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+
 
 public class SheepAI : MonoBehaviour
 {
@@ -15,9 +15,14 @@ public class SheepAI : MonoBehaviour
     [Tooltip("If player moves too close to enemy fov ignored!")]
     [SerializeField] float awarenessDistance = 1.8f;
     [SerializeField] float halfFOV = 60;
+    [SerializeField] int startWayPoint = 0;
 
     [Header("WayPoints")]
     [SerializeField] WayPointPath path;
+
+    [Header("Referenes")]
+    [SerializeField] Transform weaponIK;
+
     NavMeshAgent agent;
     WayPoint curWayPoint;
     int curWayPointID = 0;
@@ -45,7 +50,17 @@ public class SheepAI : MonoBehaviour
         alertFill = enemyUI.Find("Fill").GetComponent<Image>();
         enemyUI.gameObject.SetActive(false);
         cam = Camera.main;
+        if (startWayPoint >= path.wayPoints.Count)
+        {
+            curWayPointID = 0;
+            Debug.LogWarning("Start waypoint out of bounds");
+        }
+        curWayPointID = startWayPoint;
 
+        //Random Weapon
+        int rng = Random.Range(0, weaponIK.childCount);
+        Transform weapon = weaponIK.GetChild(rng);
+        weapon.gameObject.SetActive(true);
     }
 
     void Update()
@@ -147,8 +162,7 @@ public class SheepAI : MonoBehaviour
         float angle = Vector3.Angle(transform.forward, dir);
 
         //Wall blocks view
-        bool viewBlocked = Physics.Raycast(transform.position + Vector3.up * 0.2f, 
-            pos + Vector3.up * 0.2f, distanceToTarget, wallLayer);
+        bool viewBlocked = Physics.Raycast(transform.position, dir, distanceToTarget, wallLayer);
 
         if (curState != State.SEE_PLAYER)
         {
@@ -218,7 +232,7 @@ public class SheepAI : MonoBehaviour
         if (WolfController.Running) agent.speed = 7.5f;
         if (Vector3.Distance(transform.position, agent.destination) < 2.0f)
         {
-            SceneManager.LoadScene(0);
+            GameManager.GameOver();
         }
     }
 
