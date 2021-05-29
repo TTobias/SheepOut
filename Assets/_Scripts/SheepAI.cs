@@ -10,6 +10,8 @@ public class SheepAI : MonoBehaviour
     [Header("Settings")]
     [SerializeField] float minDistanceToWayPoint = 0.2f;
     [SerializeField] float viewDistance = 20;
+    [Tooltip("influences how fast sheep sees player")]
+    [SerializeField] float awarenessLevel = 1.0f;
     [Tooltip("If player moves too close to enemy fov ignored!")]
     [SerializeField] float awarenessDistance = 1.8f;
     [SerializeField] float halfFOV = 60;
@@ -113,7 +115,8 @@ public class SheepAI : MonoBehaviour
         float angle = Vector3.Angle(transform.forward, dir);
 
         //Wall blocks view
-        bool viewBlocked = Physics.Raycast(transform.position, pos, viewDistance, wallLayer);
+        bool viewBlocked = Physics.Raycast(transform.position + Vector3.up * 0.2f, 
+            pos + Vector3.up * 0.2f, viewDistance, wallLayer);
 
         if (curState != State.SEE_PLAYER)
         {
@@ -146,8 +149,8 @@ public class SheepAI : MonoBehaviour
         float stealthDuration = SheepTarget.instance.stealthTimer;
 
         float normalizedDistance = (viewDistance - distanceToTarget) / viewDistance;
-        float increaseFactor = 0.3f + normalizedDistance * 2.0f;
-        seeTimer -= Time.deltaTime * increaseFactor;
+        float increaseFactor = 0.2f + normalizedDistance * 1.4f;
+        seeTimer -= Time.deltaTime * increaseFactor * awarenessLevel;
 
 
         alertFill.fillAmount = ((stealthDuration - seeTimer) / stealthDuration);
