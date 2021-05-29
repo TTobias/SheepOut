@@ -7,6 +7,7 @@ public class Switch : MonoBehaviour
     [SerializeField] Gate gate;
     [SerializeField] float interactDistance = 1.5f;
     [SerializeField] Transform textHUD;
+    [SerializeField] Transform lever;
 
     Camera cam;
     bool switched;
@@ -36,8 +37,20 @@ public class Switch : MonoBehaviour
         }
     }
 
+    IEnumerator MoveSwitch()
+    {
+        float z = 0;
+        while(z > -40)
+        {
+            z -= Time.deltaTime * 4.0f;
+            lever.localEulerAngles = new Vector3(0, 0, z);
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
     public void OnInteract()
     {
+        StartCoroutine(MoveSwitch());
         switched = true;
         gate?.Open();
     }
