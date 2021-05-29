@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SheepAI : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] float minDistanceToWayPoint = 1.2f;
-    [SerializeField] float viewDistance = 5;
+    [SerializeField] float minDistanceToWayPoint = 0.2f;
+    [SerializeField] float viewDistance = 20;
     [Tooltip("If player moves too close to enemy fov ignored!")]
-    [SerializeField] float awarenessDistance = 1;
+    [SerializeField] float awarenessDistance = 1.8f;
     [SerializeField] float halfFOV = 60;
-    [Tooltip("How long does the sheep wait after reaching a checkpoint")]
-    [SerializeField] float waitTime = 2.0f;
+
     [Header("WayPoints")]
-    [SerializeField] List<WayPoint> wayPoints = new List<WayPoint>();
+    [SerializeField] WayPointPath path;
     NavMeshAgent agent;
-    int curWayPoint = 0;
+    WayPoint curWayPoint;
+    int curWayPointID = 0;
 
     State curState = State.MOVE;
     float waitTimer = 0;
@@ -27,6 +28,9 @@ public class SheepAI : MonoBehaviour
     Transform enemyUI;
     Image alertFill;
     Camera cam;
+
+    float lookAngle;
+    float distanceToTarget;
 
     void Start()
     {
@@ -41,18 +45,21 @@ public class SheepAI : MonoBehaviour
 
     void Update()
     {
-        LookForPlayer();
+        if(curState != State.CHASE)
+          LookForPlayer();
         switch (curState)
         {
             case State.MOVE:
                 MoveLogic();
                 break;
             case State.WAIT_AT_CHECKPOINT:
-                waitTimer -= Time.deltaTime;
-                if (waitTimer <= 0) curState = State.MOVE;
+                WaitAtWayPoint();
                 break;
             case State.SEE_PLAYER:
                 PlayerInView();
+                break;
+            case State.CHASE:
+                Chase();
                 break;
             default:
                 break;
@@ -61,21 +68,40 @@ public class SheepAI : MonoBehaviour
 
     void MoveLogic()
     {
-        if (wayPoints.Count == 0)
+        if (path.wayPoints.Count == 0)
         {
             Debug.LogWarning($"{name} does not have waypoints!");
             return;
         }
 
-        Vector3 target = wayPoints[curWayPoint].Position;
+        curWayPoint = path.wayPoints[curWayPointID];
+        Vector3 target = curWayPoint.Position;
 
         agent.destination = target;
-        if (Vector2.Distance(transform.position, target) < minDistanceToWayPoint)
+
+        //normalize height
+        target.y = transform.position.y;
+        if (Vector3.Distance(transform.position, target) < minDistanceToWayPoint)
         {
-            curWayPoint++;
-            if (curWayPoint >= wayPoints.Count) curWayPoint = 0;
+            curWayPointID++;
+            if (curWayPointID >= path.wayPoints.Count) curWayPointID = 0;
             curState = State.WAIT_AT_CHECKPOINT;
-            waitTimer = waitTime;
+            waitTimer = curWayPoint.waitTime;
+            lookAngle = transform.eulerAngles.y;
+        }
+    }
+
+    void WaitAtWayPoint()
+    {
+        waitTimer -= Time.deltaTime;
+        if (waitTimer <= 0) curState = State.MOVE;
+        if(curWayPoint.lookAround)
+        {
+            Vector3 rot = transform.rotation.eulerAngles;
+            float normalizedTime = (curWayPoint.waitTime - waitTimer) / curWayPoint.waitTime;
+            float shift = Mathf.Sin(2 * Mathf.PI * normalizedTime) * curWayPoint.lookAroundAngle;
+            rot.y = curWayPoint.lookLeftFirst ? lookAngle - shift : lookAngle + shift;
+            transform.eulerAngles = rot;
         }
     }
 
@@ -83,7 +109,7 @@ public class SheepAI : MonoBehaviour
     {
         Vector3 pos = SheepTarget.instance.Position;
         Vector3 dir = (pos - transform.position).normalized;
-        float dis = Vector3.Distance(transform.position, pos);
+        distanceToTarget = Vector3.Distance(transform.position, pos);
         float angle = Vector3.Angle(transform.forward, dir);
 
         //Wall blocks view
@@ -92,7 +118,7 @@ public class SheepAI : MonoBehaviour
         if (curState != State.SEE_PLAYER)
         {
             if (viewBlocked) return;
-            if ((dis < viewDistance && angle < halfFOV) || dis < awarenessDistance)
+            if ((distanceToTarget < viewDistance && angle < halfFOV) || distanceToTarget < awarenessDistance)
             {
                 curState = State.SEE_PLAYER;
                 seeTimer = SheepTarget.instance.stealthTimer;
@@ -100,10 +126,14 @@ public class SheepAI : MonoBehaviour
         }
         else
         {
-            if (dis > viewDistance * 1.2f || angle > halfFOV * 1.1f || viewBlocked)
+            if (distanceToTarget > viewDistance * 1.4f || angle > halfFOV * 1.3f || viewBlocked)
             {
-                curState = State.MOVE;
-                enemyUI.gameObject.SetActive(false);
+                seeTimer -= Time.deltaTime * 2.4f;
+                if (seeTimer < 0.0f)
+                {
+                    curState = State.MOVE;
+                    enemyUI.gameObject.SetActive(false);
+                }
             }
         }
     }
@@ -114,16 +144,21 @@ public class SheepAI : MonoBehaviour
         enemyUI.transform.rotation = Quaternion.Euler(0, cam.transform.rotation.eulerAngles.y, 0);
 
         float stealthDuration = SheepTarget.instance.stealthTimer;
-        seeTimer -= Time.deltaTime;
+
+        float normalizedDistance = (viewDistance - distanceToTarget) / viewDistance;
+        float increaseFactor = 0.3f + normalizedDistance * 2.0f;
+        seeTimer -= Time.deltaTime * increaseFactor;
+
+
         alertFill.fillAmount = ((stealthDuration - seeTimer) / stealthDuration);
         Vector3 sheepPos = SheepTarget.instance.Position;
         Vector3 normalizedPos = new Vector3(sheepPos.x, transform.position.y, sheepPos.z);
         transform.LookAt(normalizedPos, Vector3.up);
         if(seeTimer < 0)
         {
-            //TODO Game Over Handling
+            //Game Over
             alertFill.color = Color.red;
-            Debug.Log("GAME OVER!");
+            curState = State.CHASE;
         } 
         else
         {
@@ -131,9 +166,20 @@ public class SheepAI : MonoBehaviour
         }
     }
 
+    void Chase()
+    {
+        enemyUI.transform.rotation = Quaternion.Euler(0, cam.transform.rotation.eulerAngles.y, 0);
+        agent.destination = SheepTarget.instance.Position;
+        agent.speed = 5.0f;
+        if (Vector3.Distance(transform.position, agent.destination) < 2.0f)
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
+
     public enum State
     {
-        MOVE, WAIT_AT_CHECKPOINT, SEE_PLAYER
+        MOVE, WAIT_AT_CHECKPOINT, SEE_PLAYER, CHASE
     }
 
     private void OnDrawGizmosSelected()
@@ -147,17 +193,5 @@ public class SheepAI : MonoBehaviour
         Gizmos.DrawRay(transform.position, leftRayDirection * viewDistance);
         Gizmos.DrawRay(transform.position, transform.forward * viewDistance);
         Gizmos.DrawRay(transform.position, rightRayDirection * viewDistance);
-
-        if (wayPoints.Count <= 1 || wayPoints[0] == null) return;
-        Vector3 prevPos = wayPoints[0].Position;
-        for (int i = 1; i < wayPoints.Count; i++)
-        {
-            WayPoint w = wayPoints[i];
-            if (w == null) continue;
-            Vector3 nextPos = w.Position;
-            Gizmos.color = Color.blue;
-            Gizmos.DrawLine(prevPos, nextPos);
-            prevPos = nextPos;
-        }
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 121301833}
   - component: {fileID: 121301832}
   - component: {fileID: 121301831}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Nose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 2037427163519140991}
   - component: {fileID: 4209579872737251341}
   - component: {fileID: 7450075224675525342}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Outline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 774790458412639665}
   - component: {fileID: 2981732193010326376}
   - component: {fileID: 4407336136625326948}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: EnemyUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 6765855704099360220}
   - component: {fileID: 4364791581242005960}
   - component: {fileID: 3653877829548859233}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,7 +358,7 @@ GameObject:
   - component: {fileID: 8113508938164555268}
   - component: {fileID: 8113508938164555269}
   - component: {fileID: 8113508938164555270}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -453,7 +453,7 @@ GameObject:
   - component: {fileID: 8113508938202865938}
   - component: {fileID: 8113508938202865937}
   - component: {fileID: 8113508938202865939}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sheep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,15 +489,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f43081135b13bd043bf07c4cc06de033, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistanceToWayPoint: 1.2
-  viewDistance: 5
+  minDistanceToWayPoint: 0.2
+  viewDistance: 7
   awarenessDistance: 1
-  halfFOV: 60
+  halfFOV: 70
   waitTime: 2
-  wayPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  path: {fileID: 0}
 --- !u!195 &8113508938202865939
 NavMeshAgent:
   m_ObjectHideFlags: 0
