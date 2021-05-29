@@ -28,6 +28,14 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1;
             SceneManager.LoadScene(0);
         }
+
+        if(Application.isEditor)
+        {
+            if (Input.GetKey(KeyCode.F1))
+                Time.timeScale = 4.0f;
+            else
+                Time.timeScale = 1.0f;
+        }
     }
 
     public static void GameOver()

@@ -19,6 +19,10 @@ public class SheepAI : MonoBehaviour
 
     [Header("WayPoints")]
     [SerializeField] WayPointPath path;
+
+    [Header("Referenes")]
+    [SerializeField] Transform weaponIK;
+
     NavMeshAgent agent;
     WayPoint curWayPoint;
     int curWayPointID = 0;
@@ -52,6 +56,11 @@ public class SheepAI : MonoBehaviour
             Debug.LogWarning("Start waypoint out of bounds");
         }
         curWayPointID = startWayPoint;
+
+        //Random Weapon
+        int rng = Random.Range(0, weaponIK.childCount);
+        Transform weapon = weaponIK.GetChild(rng);
+        weapon.gameObject.SetActive(true);
     }
 
     void Update()
