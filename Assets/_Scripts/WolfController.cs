@@ -9,7 +9,8 @@ public class WolfController : MonoBehaviour
     public Camera cam;
     public Transform player;
 
-    public float speed = 3f;
+    public float speed = 3.5f;
+    public float runSpeed = 6.0f;
     public float gravity = -9.81f;
 
     public Vector3 velocity;
@@ -17,7 +18,7 @@ public class WolfController : MonoBehaviour
     public float sensitivity = 100f;
 
     public float xRotation = 0f;
-
+    public static bool Running = false;
 
     private Vector3 InputRotation;
 
@@ -78,7 +79,9 @@ public class WolfController : MonoBehaviour
         move += Vector3.down*gravity;
 
         //apply movement
-        controller.Move(move * speed * Time.fixedDeltaTime);
+        Running = Input.GetButton("Run");
+        float s = Running ? runSpeed : speed;
+        controller.Move(move * s * Time.fixedDeltaTime);
     
        
     }

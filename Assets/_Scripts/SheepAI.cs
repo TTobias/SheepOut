@@ -25,19 +25,21 @@ public class SheepAI : MonoBehaviour
     State curState = State.MOVE;
     float waitTimer = 0;
     float seeTimer = 0;
+    float lookAroundTimer = 0;
     LayerMask wallLayer;
 
     Transform enemyUI;
     Image alertFill;
     Camera cam;
+    Animator anim;
 
     float lookAngle;
     float distanceToTarget;
-
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        wallLayer = LayerMask.NameToLayer("Wall");
+        anim = GetComponentInChildren<Animator>();
+        wallLayer = 1 << 7;
         enemyUI = transform.Find("EnemyUI");
         alertFill = enemyUI.Find("Fill").GetComponent<Image>();
         enemyUI.gameObject.SetActive(false);
@@ -57,6 +59,9 @@ public class SheepAI : MonoBehaviour
             case State.WAIT_AT_CHECKPOINT:
                 WaitAtWayPoint();
                 break;
+            case State.LOOK_AROUND:
+                LookAround();
+                break;
             case State.SEE_PLAYER:
                 PlayerInView();
                 break;
@@ -66,6 +71,9 @@ public class SheepAI : MonoBehaviour
             default:
                 break;
         }
+
+        //Update anim
+        anim.SetBool("move", agent.velocity.magnitude > 0.5f);
     }
 
     void MoveLogic()
@@ -75,12 +83,10 @@ public class SheepAI : MonoBehaviour
             Debug.LogWarning($"{name} does not have waypoints!");
             return;
         }
-
         curWayPoint = path.wayPoints[curWayPointID];
         Vector3 target = curWayPoint.Position;
 
         agent.destination = target;
-
         //normalize height
         target.y = transform.position.y;
         if (Vector3.Distance(transform.position, target) < minDistanceToWayPoint)
@@ -96,15 +102,39 @@ public class SheepAI : MonoBehaviour
     void WaitAtWayPoint()
     {
         waitTimer -= Time.deltaTime;
-        if (waitTimer <= 0) curState = State.MOVE;
-        if(curWayPoint.lookAround)
+
+        if (curWayPoint.rotateToWayPointDir)
         {
             Vector3 rot = transform.rotation.eulerAngles;
             float normalizedTime = (curWayPoint.waitTime - waitTimer) / curWayPoint.waitTime;
-            float shift = Mathf.Sin(2 * Mathf.PI * normalizedTime) * curWayPoint.lookAroundAngle;
-            rot.y = curWayPoint.lookLeftFirst ? lookAngle - shift : lookAngle + shift;
+            float targetY = curWayPoint.transform.eulerAngles.y - lookAngle;
+            float shift = Mathf.Sin(0.5f * Mathf.PI * normalizedTime) * targetY;
+            rot.y = lookAngle + shift;
             transform.eulerAngles = rot;
         }
+
+        if (waitTimer <= 0)
+        {
+            if (curWayPoint.lookAround)
+            {
+                curState = State.LOOK_AROUND;
+                lookAngle = transform.eulerAngles.y;
+                lookAroundTimer = curWayPoint.lookTime;
+            }
+            else
+                curState = State.MOVE;
+        }
+    }
+
+    void LookAround()
+    {
+        lookAroundTimer -= Time.deltaTime;
+        if (lookAroundTimer < 0) curState = State.MOVE;
+        Vector3 rot = transform.rotation.eulerAngles;
+        float normalizedTime = (curWayPoint.lookTime - lookAroundTimer) / curWayPoint.lookTime;
+        float shift = Mathf.Sin(2 * Mathf.PI * normalizedTime) * curWayPoint.lookAroundAngle;
+        rot.y = curWayPoint.lookLeftFirst ? lookAngle - shift : lookAngle + shift;
+        transform.eulerAngles = rot;
     }
 
     void LookForPlayer()
@@ -116,7 +146,7 @@ public class SheepAI : MonoBehaviour
 
         //Wall blocks view
         bool viewBlocked = Physics.Raycast(transform.position + Vector3.up * 0.2f, 
-            pos + Vector3.up * 0.2f, viewDistance, wallLayer);
+            pos + Vector3.up * 0.2f, distanceToTarget, wallLayer);
 
         if (curState != State.SEE_PLAYER)
         {
@@ -129,7 +159,7 @@ public class SheepAI : MonoBehaviour
         }
         else
         {
-            if (distanceToTarget > viewDistance * 1.4f || angle > halfFOV * 1.3f || viewBlocked)
+            if (distanceToTarget > viewDistance * 1.2f || angle > halfFOV * 1.1f || viewBlocked)
             {
                 seeTimer -= Time.deltaTime * 2.4f;
                 if (seeTimer < 0.0f)
@@ -149,8 +179,9 @@ public class SheepAI : MonoBehaviour
         float stealthDuration = SheepTarget.instance.stealthTimer;
 
         float normalizedDistance = (viewDistance - distanceToTarget) / viewDistance;
-        float increaseFactor = 0.2f + normalizedDistance * 1.4f;
-        seeTimer -= Time.deltaTime * increaseFactor * awarenessLevel;
+        float increaseFactor = 0.2f + normalizedDistance * 0.8f;
+        float runFactor = WolfController.Running ? 2.4f : 1.0f;
+        seeTimer -= Time.deltaTime * increaseFactor * awarenessLevel * runFactor;
 
 
         alertFill.fillAmount = ((stealthDuration - seeTimer) / stealthDuration);
@@ -174,6 +205,7 @@ public class SheepAI : MonoBehaviour
         enemyUI.transform.rotation = Quaternion.Euler(0, cam.transform.rotation.eulerAngles.y, 0);
         agent.destination = SheepTarget.instance.Position;
         agent.speed = 5.0f;
+        if (WolfController.Running) agent.speed = 7.0f;
         if (Vector3.Distance(transform.position, agent.destination) < 2.0f)
         {
             SceneManager.LoadScene(0);
@@ -182,7 +214,7 @@ public class SheepAI : MonoBehaviour
 
     public enum State
     {
-        MOVE, WAIT_AT_CHECKPOINT, SEE_PLAYER, CHASE
+        MOVE, WAIT_AT_CHECKPOINT, SEE_PLAYER, CHASE, LOOK_AROUND
     }
 
     private void OnDrawGizmosSelected()
