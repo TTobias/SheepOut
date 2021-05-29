@@ -28001,7 +28001,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c27154c3ed87574494889ad37963817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementFactor: 4
+  movementFactor: 3.5
 --- !u!1001 &707865353
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46307,7 +46307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c27154c3ed87574494889ad37963817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementFactor: 4
+  movementFactor: 3.5
 --- !u!1001 &1128238318
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47233,7 +47233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c27154c3ed87574494889ad37963817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementFactor: 4
+  movementFactor: 3.5
 --- !u!1001 &1146420464
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68194,7 +68194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c27154c3ed87574494889ad37963817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementFactor: 4
+  movementFactor: 3.5
 --- !u!1001 &1693526363
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69477,7 +69477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c27154c3ed87574494889ad37963817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementFactor: 4
+  movementFactor: 3.5
 --- !u!1001 &1724724829
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76649,7 +76649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c27154c3ed87574494889ad37963817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementFactor: 4
+  movementFactor: 3.5
 --- !u!1001 &1889013949
 PrefabInstance:
   m_ObjectHideFlags: 0

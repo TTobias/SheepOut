@@ -28,7 +28,7 @@ public class Switch : MonoBehaviour
             textHUD.gameObject.SetActive(true);
             textHUD.rotation = Quaternion.Euler(0, cam.transform.rotation.eulerAngles.y, 0);
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetMouseButtonDown(0))
                 OnInteract();
         }
         else
