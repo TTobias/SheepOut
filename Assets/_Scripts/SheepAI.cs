@@ -162,8 +162,7 @@ public class SheepAI : MonoBehaviour
         float angle = Vector3.Angle(transform.forward, dir);
 
         //Wall blocks view
-        bool viewBlocked = Physics.Raycast(transform.position + Vector3.up * 0.2f, 
-            pos + Vector3.up * 0.2f, distanceToTarget, wallLayer);
+        bool viewBlocked = Physics.Raycast(transform.position, dir, distanceToTarget, wallLayer);
 
         if (curState != State.SEE_PLAYER)
         {
