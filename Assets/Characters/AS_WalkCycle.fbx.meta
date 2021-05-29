@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d7317ae941a896843891d58ef8842114
+guid: 4fe8f69633aa8824ab3ea8af40d6b04b
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
@@ -7,8 +7,8 @@ ModelImporter:
       74: 5675206370255973361
     second: clip0
   - first:
-      74: -643764532461648033
-    second: POSE_HoldSpeer
+      74: -7939422232465117443
+    second: WalkCycle
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -36,7 +36,36 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: WalkCycle
+      takeName: WalkCycle
+      internalID: 0
+      firstFrame: 1
+      lastFrame: 50
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
     isReadable: 0
   meshes:
     lODScreenPercentages: []

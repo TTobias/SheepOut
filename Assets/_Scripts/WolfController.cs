@@ -18,6 +18,9 @@ public class WolfController : MonoBehaviour
 
     public float xRotation = 0f;
 
+
+    private Vector3 InputRotation;
+
     private void Start() {
         cam = GetComponentInChildren<Camera>();
         controller = this.GetComponent<CharacterController>();
@@ -59,6 +62,8 @@ public class WolfController : MonoBehaviour
                 }
             }
         }*/
+        ///Camera
+        
     }
 
     public void FixedUpdate(){
@@ -73,18 +78,22 @@ public class WolfController : MonoBehaviour
         move += Vector3.down*gravity;
 
         //apply movement
-        controller.Move(move * speed * Time.deltaTime);
+        controller.Move(move * speed * Time.fixedDeltaTime);
     
+       
+    }
 
-        ///Camera
-        float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
-
-        xRotation -= mouseY;
+    public void LateUpdate()
+    {
+        InputRotation.x = Input.GetAxis("Mouse X") * sensitivity;
+        InputRotation.y = Input.GetAxis("Mouse Y") * sensitivity;
+        
+        xRotation -= InputRotation.y * Time.fixedDeltaTime;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        cam.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        player.Rotate(Vector3.up * mouseX);
-        
+        cam.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
+
+        player.Rotate(Vector3.up * InputRotation.x * Time.fixedDeltaTime);
     }
+    
 }
