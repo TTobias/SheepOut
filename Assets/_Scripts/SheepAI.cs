@@ -122,12 +122,9 @@ public class SheepAI : MonoBehaviour
 
         if (curWayPoint.rotateToWayPointDir)
         {
-            Vector3 rot = transform.rotation.eulerAngles;
-            float normalizedTime = (curWayPoint.waitTime - waitTimer) / curWayPoint.waitTime;
-            float targetY = curWayPoint.transform.eulerAngles.y - lookAngle;
-            float shift = Mathf.Sin(0.5f * Mathf.PI * normalizedTime) * targetY;
-            rot.y = lookAngle + shift;
-            transform.eulerAngles = rot;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation,
+                Quaternion.Euler(transform.rotation.x, curWayPoint.transform.eulerAngles.y, transform.rotation.z),
+                Time.deltaTime * (180 / curWayPoint.waitTime));
         }
 
         if (waitTimer <= 0)

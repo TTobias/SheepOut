@@ -42,7 +42,7 @@ public class Switch : MonoBehaviour
         float z = 0;
         while(z > -40)
         {
-            z -= Time.deltaTime * 4.0f;
+            z -= Time.deltaTime * 42.0f;
             lever.localEulerAngles = new Vector3(0, 0, z);
             yield return new WaitForFixedUpdate();
         }

@@ -331,10 +331,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minDistanceToWayPoint: 0.2
-  viewDistance: 7
+  viewDistance: 15
   awarenessLevel: 1
-  awarenessDistance: 1
-  halfFOV: 70
+  awarenessDistance: 1.8
+  halfFOV: 60
   startWayPoint: 0
   path: {fileID: 0}
   weaponIK: {fileID: 3848386066183571976}
