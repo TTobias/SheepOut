@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public Image gameoverOverlay;
     public static GameManager instance;
     public static bool WaitForContinueKey;
+    [SerializeField] Transform pauseHUD;
+    public static bool Paused = false;
 
     private void Awake()
     {
@@ -18,6 +20,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         gameoverOverlay.enabled = false;
+        Paused = false;
     }
 
     private void Update()
@@ -29,7 +32,12 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(0);
         }
 
-        if(Application.isEditor)
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
+
+        if(Application.isEditor && !Paused)
         {
             if (Input.GetKey(KeyCode.F1))
                 Time.timeScale = 4.0f;
@@ -43,5 +51,30 @@ public class GameManager : MonoBehaviour
         instance.gameoverOverlay.enabled = true;
         Time.timeScale = 0;
         WaitForContinueKey = true;
+    }
+
+    public void TogglePause()
+    {
+        Paused = !Paused;
+
+        if (Paused)
+        {
+            Time.timeScale = 0;
+            pauseHUD.gameObject.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Time.timeScale = 1;
+            pauseHUD.gameObject.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }
