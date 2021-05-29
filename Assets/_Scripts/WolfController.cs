@@ -9,7 +9,8 @@ public class WolfController : MonoBehaviour
     public Camera cam;
     public Transform player;
 
-    public float speed = 3f;
+    public float speed = 3.5f;
+    public float runSpeed = 6.0f;
     public float gravity = -9.81f;
 
     public Vector3 velocity;
@@ -17,6 +18,9 @@ public class WolfController : MonoBehaviour
     public float sensitivity = 100f;
 
     public float xRotation = 0f;
+    public static bool Running = false;
+
+    private Vector3 InputRotation;
 
     private void Start() {
         cam = GetComponentInChildren<Camera>();
@@ -59,6 +63,8 @@ public class WolfController : MonoBehaviour
                 }
             }
         }*/
+        ///Camera
+        
     }
 
     public void FixedUpdate(){
@@ -73,18 +79,27 @@ public class WolfController : MonoBehaviour
         move += Vector3.down*gravity;
 
         //apply movement
-        controller.Move(move * speed * Time.deltaTime);
+        Running = Input.GetButton("Run");
+        float s = Running ? runSpeed : speed;
+        controller.Move(move * s * Time.fixedDeltaTime);
     
+       
+    }
 
-        ///Camera
-        float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
+    public void LateUpdate()
+    {
+        if (Time.timeScale == 0)
+            return;
 
-        xRotation -= mouseY;
+        InputRotation.x = Input.GetAxis("Mouse X") * sensitivity;
+        InputRotation.y = Input.GetAxis("Mouse Y") * sensitivity;
+        
+        xRotation -= InputRotation.y * Time.fixedDeltaTime;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        cam.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        player.Rotate(Vector3.up * mouseX);
-        
+        cam.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
+
+        player.Rotate(Vector3.up * InputRotation.x * Time.fixedDeltaTime);
     }
+    
 }

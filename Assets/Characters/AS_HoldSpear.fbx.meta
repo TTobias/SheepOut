@@ -6,6 +6,9 @@ ModelImporter:
   - first:
       74: 5675206370255973361
     second: clip0
+  - first:
+      74: -643764532461648033
+    second: POSE_HoldSpeer
   externalObjects: {}
   materials:
     materialImportMode: 2

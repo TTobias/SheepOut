@@ -4,95 +4,162 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
+
 public class SheepAI : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] float minDistanceToWayPoint = 1.2f;
-    [SerializeField] float viewDistance = 5;
+    [SerializeField] float minDistanceToWayPoint = 0.2f;
+    [SerializeField] float viewDistance = 20;
+    [Tooltip("influences how fast sheep sees player")]
+    [SerializeField] float awarenessLevel = 1.0f;
     [Tooltip("If player moves too close to enemy fov ignored!")]
-    [SerializeField] float awarenessDistance = 1;
+    [SerializeField] float awarenessDistance = 1.8f;
     [SerializeField] float halfFOV = 60;
-    [Tooltip("How long does the sheep wait after reaching a checkpoint")]
-    [SerializeField] float waitTime = 2.0f;
+    [SerializeField] int startWayPoint = 0;
+
     [Header("WayPoints")]
-    [SerializeField] List<WayPoint> wayPoints = new List<WayPoint>();
+    [SerializeField] WayPointPath path;
     NavMeshAgent agent;
-    int curWayPoint = 0;
+    WayPoint curWayPoint;
+    int curWayPointID = 0;
 
     State curState = State.MOVE;
     float waitTimer = 0;
     float seeTimer = 0;
+    float lookAroundTimer = 0;
     LayerMask wallLayer;
 
     Transform enemyUI;
     Image alertFill;
     Camera cam;
+    Animator anim;
 
+    float lookAngle;
+    float distanceToTarget;
+    bool stillInview;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        wallLayer = LayerMask.NameToLayer("Wall");
+        anim = GetComponentInChildren<Animator>();
+        wallLayer = 1 << 7;
         enemyUI = transform.Find("EnemyUI");
         alertFill = enemyUI.Find("Fill").GetComponent<Image>();
         enemyUI.gameObject.SetActive(false);
         cam = Camera.main;
-
+        if (startWayPoint >= path.wayPoints.Count)
+        {
+            curWayPointID = 0;
+            Debug.LogWarning("Start waypoint out of bounds");
+        }
+        curWayPointID = startWayPoint;
     }
 
     void Update()
     {
-        LookForPlayer();
+        if(curState != State.CHASE)
+          LookForPlayer();
         switch (curState)
         {
             case State.MOVE:
                 MoveLogic();
                 break;
             case State.WAIT_AT_CHECKPOINT:
-                waitTimer -= Time.deltaTime;
-                if (waitTimer <= 0) curState = State.MOVE;
+                WaitAtWayPoint();
+                break;
+            case State.LOOK_AROUND:
+                LookAround();
                 break;
             case State.SEE_PLAYER:
                 PlayerInView();
                 break;
+            case State.CHASE:
+                Chase();
+                break;
             default:
                 break;
         }
+
+        //Update anim
+        anim.SetBool("move", agent.velocity.magnitude > 0.5f);
     }
 
     void MoveLogic()
     {
-        if (wayPoints.Count == 0)
+        if (path.wayPoints.Count == 0)
         {
             Debug.LogWarning($"{name} does not have waypoints!");
             return;
         }
+        curWayPoint = path.wayPoints[curWayPointID];
+        Vector3 target = curWayPoint.Position;
 
-        Vector3 target = wayPoints[curWayPoint].Position;
-
+        agent.isStopped = false;
         agent.destination = target;
-        if (Vector2.Distance(transform.position, target) < minDistanceToWayPoint)
+        //normalize height
+        target.y = transform.position.y;
+        if (Vector3.Distance(transform.position, target) < minDistanceToWayPoint)
         {
-            curWayPoint++;
-            if (curWayPoint >= wayPoints.Count) curWayPoint = 0;
+            curWayPointID++;
+            if (curWayPointID >= path.wayPoints.Count) curWayPointID = 0;
             curState = State.WAIT_AT_CHECKPOINT;
-            waitTimer = waitTime;
+            waitTimer = curWayPoint.waitTime;
+            lookAngle = transform.eulerAngles.y;
         }
+    }
+
+    void WaitAtWayPoint()
+    {
+        waitTimer -= Time.deltaTime;
+
+        if (curWayPoint.rotateToWayPointDir)
+        {
+            Vector3 rot = transform.rotation.eulerAngles;
+            float normalizedTime = (curWayPoint.waitTime - waitTimer) / curWayPoint.waitTime;
+            float targetY = curWayPoint.transform.eulerAngles.y - lookAngle;
+            float shift = Mathf.Sin(0.5f * Mathf.PI * normalizedTime) * targetY;
+            rot.y = lookAngle + shift;
+            transform.eulerAngles = rot;
+        }
+
+        if (waitTimer <= 0)
+        {
+            if (curWayPoint.lookAround)
+            {
+                curState = State.LOOK_AROUND;
+                lookAngle = transform.eulerAngles.y;
+                lookAroundTimer = curWayPoint.lookTime;
+            }
+            else
+                curState = State.MOVE;
+        }
+    }
+
+    void LookAround()
+    {
+        lookAroundTimer -= Time.deltaTime;
+        if (lookAroundTimer < 0) curState = State.MOVE;
+        Vector3 rot = transform.rotation.eulerAngles;
+        float normalizedTime = (curWayPoint.lookTime - lookAroundTimer) / curWayPoint.lookTime;
+        float shift = Mathf.Sin(2 * Mathf.PI * normalizedTime) * curWayPoint.lookAroundAngle;
+        rot.y = curWayPoint.lookLeftFirst ? lookAngle - shift : lookAngle + shift;
+        transform.eulerAngles = rot;
     }
 
     void LookForPlayer()
     {
         Vector3 pos = SheepTarget.instance.Position;
         Vector3 dir = (pos - transform.position).normalized;
-        float dis = Vector3.Distance(transform.position, pos);
+        distanceToTarget = Vector3.Distance(transform.position, pos);
         float angle = Vector3.Angle(transform.forward, dir);
 
         //Wall blocks view
-        bool viewBlocked = Physics.Raycast(transform.position, pos, viewDistance, wallLayer);
+        bool viewBlocked = Physics.Raycast(transform.position + Vector3.up * 0.2f, 
+            pos + Vector3.up * 0.2f, distanceToTarget, wallLayer);
 
         if (curState != State.SEE_PLAYER)
         {
             if (viewBlocked) return;
-            if ((dis < viewDistance && angle < halfFOV) || dis < awarenessDistance)
+            if ((distanceToTarget < viewDistance && angle < halfFOV) || distanceToTarget < awarenessDistance)
             {
                 curState = State.SEE_PLAYER;
                 seeTimer = SheepTarget.instance.stealthTimer;
@@ -100,30 +167,47 @@ public class SheepAI : MonoBehaviour
         }
         else
         {
-            if (dis > viewDistance * 1.2f || angle > halfFOV * 1.1f || viewBlocked)
+            if (distanceToTarget > viewDistance * 1.2f || angle > halfFOV * 1.1f || viewBlocked)
             {
-                curState = State.MOVE;
-                enemyUI.gameObject.SetActive(false);
+                stillInview = false;
+                seeTimer -= Time.deltaTime * 2.4f;
+                if (seeTimer < 0.0f)
+                {
+                    curState = State.MOVE;
+                    enemyUI.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                stillInview = true;
             }
         }
     }
 
     void PlayerInView()
     {
+        agent.isStopped = true;
         enemyUI.gameObject.SetActive(true);
         enemyUI.transform.rotation = Quaternion.Euler(0, cam.transform.rotation.eulerAngles.y, 0);
 
         float stealthDuration = SheepTarget.instance.stealthTimer;
-        seeTimer -= Time.deltaTime;
+
+        float normalizedDistance = (viewDistance - distanceToTarget) / viewDistance;
+        float increaseFactor = 0.2f + normalizedDistance * 0.8f;
+        float runFactor = WolfController.Running ? 2.4f : 1.0f;
+        if(stillInview)
+            seeTimer -= Time.deltaTime * increaseFactor * awarenessLevel * runFactor;
+
+
         alertFill.fillAmount = ((stealthDuration - seeTimer) / stealthDuration);
         Vector3 sheepPos = SheepTarget.instance.Position;
         Vector3 normalizedPos = new Vector3(sheepPos.x, transform.position.y, sheepPos.z);
         transform.LookAt(normalizedPos, Vector3.up);
         if(seeTimer < 0)
         {
-            //TODO Game Over Handling
+            //Game Over
             alertFill.color = Color.red;
-            Debug.Log("GAME OVER!");
+            curState = State.CHASE;
         } 
         else
         {
@@ -131,9 +215,22 @@ public class SheepAI : MonoBehaviour
         }
     }
 
+    void Chase()
+    {
+        agent.isStopped = false;
+        enemyUI.transform.rotation = Quaternion.Euler(0, cam.transform.rotation.eulerAngles.y, 0);
+        agent.destination = SheepTarget.instance.Position;
+        agent.speed = 5.5f;
+        if (WolfController.Running) agent.speed = 7.5f;
+        if (Vector3.Distance(transform.position, agent.destination) < 2.0f)
+        {
+            GameManager.GameOver();
+        }
+    }
+
     public enum State
     {
-        MOVE, WAIT_AT_CHECKPOINT, SEE_PLAYER
+        MOVE, WAIT_AT_CHECKPOINT, SEE_PLAYER, CHASE, LOOK_AROUND
     }
 
     private void OnDrawGizmosSelected()
@@ -147,17 +244,5 @@ public class SheepAI : MonoBehaviour
         Gizmos.DrawRay(transform.position, leftRayDirection * viewDistance);
         Gizmos.DrawRay(transform.position, transform.forward * viewDistance);
         Gizmos.DrawRay(transform.position, rightRayDirection * viewDistance);
-
-        if (wayPoints.Count <= 1 || wayPoints[0] == null) return;
-        Vector3 prevPos = wayPoints[0].Position;
-        for (int i = 1; i < wayPoints.Count; i++)
-        {
-            WayPoint w = wayPoints[i];
-            if (w == null) continue;
-            Vector3 nextPos = w.Position;
-            Gizmos.color = Color.blue;
-            Gizmos.DrawLine(prevPos, nextPos);
-            prevPos = nextPos;
-        }
     }
 }
