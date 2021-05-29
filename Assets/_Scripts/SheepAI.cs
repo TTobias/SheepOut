@@ -19,6 +19,10 @@ public class SheepAI : MonoBehaviour
 
     [Header("WayPoints")]
     [SerializeField] WayPointPath path;
+
+    [Header("Referenes")]
+    [SerializeField] Transform weaponIK;
+
     NavMeshAgent agent;
     WayPoint curWayPoint;
     int curWayPointID = 0;
@@ -52,6 +56,11 @@ public class SheepAI : MonoBehaviour
             Debug.LogWarning("Start waypoint out of bounds");
         }
         curWayPointID = startWayPoint;
+
+        //Random Weapon
+        int rng = Random.Range(0, weaponIK.childCount);
+        Transform weapon = weaponIK.GetChild(rng);
+        weapon.gameObject.SetActive(true);
     }
 
     void Update()
@@ -153,8 +162,7 @@ public class SheepAI : MonoBehaviour
         float angle = Vector3.Angle(transform.forward, dir);
 
         //Wall blocks view
-        bool viewBlocked = Physics.Raycast(transform.position + Vector3.up * 0.2f, 
-            pos + Vector3.up * 0.2f, distanceToTarget, wallLayer);
+        bool viewBlocked = Physics.Raycast(transform.position, dir, distanceToTarget, wallLayer);
 
         if (curState != State.SEE_PLAYER)
         {
