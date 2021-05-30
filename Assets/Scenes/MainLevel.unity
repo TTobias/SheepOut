@@ -425,7 +425,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: viewDistance
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: awarenessDistance
@@ -5568,7 +5568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: viewDistance
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: startWayPoint
@@ -21484,7 +21484,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: viewDistance
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: startWayPoint
@@ -23395,7 +23395,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: viewDistance
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: awarenessDistance
@@ -25807,7 +25807,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: viewDistance
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: startWayPoint
@@ -28652,7 +28652,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: viewDistance
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: startWayPoint
@@ -43711,7 +43711,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: viewDistance
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: startWayPoint
@@ -53239,6 +53239,10 @@ PrefabInstance:
       propertyPath: path
       value: 
       objectReference: {fileID: 1697452432}
+    - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
+      propertyPath: viewDistance
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865938, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -54975,7 +54979,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: viewDistance
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: startWayPoint
@@ -58875,7 +58879,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: viewDistance
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: startWayPoint
@@ -59147,7 +59151,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: viewDistance
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: startWayPoint
@@ -71779,7 +71783,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: viewDistance
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: startWayPoint
@@ -76941,6 +76945,10 @@ PrefabInstance:
     - target: {fileID: 4112144442178188088, guid: 4a20dbd32c4ddb84abfcf1337147e137, type: 3}
       propertyPath: m_Name
       value: Wolf
+      objectReference: {fileID: 0}
+    - target: {fileID: 4786376743232898254, guid: 4a20dbd32c4ddb84abfcf1337147e137, type: 3}
+      propertyPath: stealthTimer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5575420258385495046, guid: 4a20dbd32c4ddb84abfcf1337147e137, type: 3}
       propertyPath: m_RootOrder
@@ -82760,7 +82768,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: viewDistance
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: startWayPoint
@@ -82870,7 +82878,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: viewDistance
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: awarenessDistance
@@ -86061,7 +86069,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: viewDistance
-      value: 20
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8113508938202865937, guid: 2f557fa95b98f384da8b1b82d24bc4f7, type: 3}
       propertyPath: startWayPoint

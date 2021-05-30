@@ -331,7 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minDistanceToWayPoint: 0.2
-  viewDistance: 15
+  viewDistance: 12
   awarenessLevel: 1
   awarenessDistance: 1.8
   halfFOV: 60
