@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public static bool WaitForContinueKey;
     [SerializeField] Transform pauseHUD;
     public static bool Paused = false;
-
+    public static bool Won = false;
     [SerializeField] private Transform hornOverlay;
     [SerializeField] private Transform woolOverlay;
     
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
         {
             WaitForContinueKey = false;
             Time.timeScale = 1;
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(Won ? 0 : 1);
         }
 
         if(Input.GetKeyDown(KeyCode.Escape))
@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
         instance.gameoverOverlay.enabled = true;
         Time.timeScale = 0;
         WaitForContinueKey = true;
+        Won = false;
     }
 
     public static void Win()
@@ -81,6 +82,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         WaitForContinueKey = true;
         instance.winOverlay.enabled = true;
+        Won = true;
     }
 
     public void TogglePause()
@@ -105,7 +107,7 @@ public class GameManager : MonoBehaviour
 
     public void Quit()
     {
-        Application.Quit();
+        SceneManager.LoadScene(0);
     }
 
     public void AddPickup(InteractivePickup.InteractivePickupTypes type)

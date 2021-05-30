@@ -27,6 +27,11 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("MainLevel");
     }
 
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
     public void OpenCredits()
     {
         creditsOverlay.SetActive(true);
