@@ -203,7 +203,7 @@ public class SheepAI : MonoBehaviour
         float stealthDuration = SheepTarget.instance.stealthTimer;
 
         float normalizedDistance = (viewDistance - distanceToTarget) / viewDistance;
-        float increaseFactor = 0.15f + normalizedDistance * 0.85f;
+        float increaseFactor = 0.3f + normalizedDistance * 0.7f;
         float runFactor = WolfController.Running ? 1.8f : 1.0f;
 
         float angle = Vector3.Angle(transform.forward, cam.transform.forward);
