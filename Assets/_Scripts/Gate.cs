@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Gate : MonoBehaviour
 {
-    [SerializeField] float movementFactor = 4f;
+    [SerializeField] float movementFactor = 3.5f;
     public void Open()
     {
         StartCoroutine(OpenRoutine(transform.position, 

@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public Image gameoverOverlay;
+    [SerializeField] Image winOverlay;
+    [SerializeField] Image gameoverOverlay;
     public static GameManager instance;
     public static bool WaitForContinueKey;
     [SerializeField] Transform pauseHUD;
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         gameoverOverlay.enabled = false;
+        instance.winOverlay.enabled = false;
         Paused = false;
     }
 
@@ -51,6 +53,13 @@ public class GameManager : MonoBehaviour
         instance.gameoverOverlay.enabled = true;
         Time.timeScale = 0;
         WaitForContinueKey = true;
+    }
+
+    public static void Win()
+    {
+        Time.timeScale = 0;
+        WaitForContinueKey = true;
+        instance.winOverlay.enabled = true;
     }
 
     public void TogglePause()
