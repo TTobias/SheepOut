@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -28,6 +29,10 @@ public class GameManager : MonoBehaviour
     {
         gameoverOverlay.enabled = false;
         instance.winOverlay.enabled = false;
+        
+        hornOverlay.gameObject.SetActive(false);
+        woolOverlay.gameObject.SetActive(false);
+        
         Paused = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
