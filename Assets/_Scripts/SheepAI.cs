@@ -71,25 +71,30 @@ public class SheepAI : MonoBehaviour
         {
             case State.MOVE:
                 MoveLogic();
+                anim.SetBool("move", agent.velocity.magnitude > 1.2f);
                 break;
             case State.WAIT_AT_CHECKPOINT:
                 WaitAtWayPoint();
+                anim.SetBool("move", false);
                 break;
             case State.LOOK_AROUND:
                 LookAround();
+                anim.SetBool("move", false);
                 break;
             case State.SEE_PLAYER:
                 PlayerInView();
+                anim.SetBool("move", false);
                 break;
             case State.CHASE:
                 Chase();
+                anim.SetBool("move", true);
                 break;
             default:
                 break;
         }
 
         //Update anim
-        anim.SetBool("move", agent.velocity.magnitude > 0.5f);
+        anim.SetInteger("nextIdle", Random.Range(0, 2));
     }
 
     void MoveLogic()
@@ -198,10 +203,15 @@ public class SheepAI : MonoBehaviour
         float stealthDuration = SheepTarget.instance.stealthTimer;
 
         float normalizedDistance = (viewDistance - distanceToTarget) / viewDistance;
-        float increaseFactor = 0.2f + normalizedDistance * 0.8f;
-        float runFactor = WolfController.Running ? 2.4f : 1.0f;
-        if(stillInview)
-            seeTimer -= Time.deltaTime * increaseFactor * awarenessLevel * runFactor;
+        float increaseFactor = 0.15f + normalizedDistance * 0.85f;
+        float runFactor = WolfController.Running ? 1.8f : 1.0f;
+
+        float angle = Vector3.Angle(transform.forward, cam.transform.forward);
+        float outsideOfCamViewModifier = angle < 90 ? 0.4f : 1.0f;
+
+        if (stillInview)
+            seeTimer -= Time.deltaTime * increaseFactor * 
+                awarenessLevel * runFactor * outsideOfCamViewModifier;
 
 
         alertFill.fillAmount = ((stealthDuration - seeTimer) / stealthDuration);
