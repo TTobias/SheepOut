@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
         {
             WaitForContinueKey = false;
             Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             SceneManager.LoadScene(Won ? 0 : 1);
         }
 
