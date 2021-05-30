@@ -16,12 +16,14 @@ public class SheepAI : MonoBehaviour
     [SerializeField] float awarenessDistance = 0.5f;
     [SerializeField] float halfFOV = 60;
     [SerializeField] int startWayPoint = 0;
+    AudioSource bahSource;
 
     [Header("WayPoints")]
     [SerializeField] WayPointPath path;
 
     [Header("Referenes")]
     [SerializeField] Transform weaponIK;
+    [SerializeField] AudioClip[] bahSounds;
 
     NavMeshAgent agent;
     WayPoint curWayPoint;
@@ -45,6 +47,7 @@ public class SheepAI : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
+        bahSource = GetComponentInChildren<AudioSource>();
         wallLayer = (1 << 7) | (1 << 9);
         enemyUI = transform.Find("EnemyUI");
         alertFill = enemyUI.Find("Fill").GetComponent<Image>();
@@ -173,6 +176,7 @@ public class SheepAI : MonoBehaviour
             {
                 curState = State.SEE_PLAYER;
                 seeTimer = SheepTarget.instance.stealthTimer;
+                BahSound();
             }
         }
         else
@@ -242,6 +246,14 @@ public class SheepAI : MonoBehaviour
         {
             GameManager.GameOver();
         }
+    }
+
+    void BahSound()
+    {
+        AudioClip a = bahSounds[Random.Range(0, bahSounds.Length)];
+        bahSource.clip = a;
+        bahSource.pitch = Random.Range(0.8f, 1.2f);
+        bahSource.Play();
     }
 
     public enum State
