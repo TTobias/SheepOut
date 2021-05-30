@@ -282,7 +282,7 @@ MonoBehaviour:
   interactDistance: 1.5
   textHUD: {fileID: 5878668165578030962}
   Type: 1
-  AddedStealthTime: 1
+  AddedStealthTime: 1.5
   bRequiresAngle: 0
   HalfAngleInteraction: 30
 --- !u!1001 &5766138795974666786
