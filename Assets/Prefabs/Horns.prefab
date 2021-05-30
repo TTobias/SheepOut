@@ -48,7 +48,9 @@ MonoBehaviour:
   interactDistance: 1.5
   textHUD: {fileID: 878062812362885456}
   Type: 0
-  AddedStealthTime: 1
+  AddedStealthTime: 1.5
+  bRequiresAngle: 0
+  HalfAngleInteraction: 30
 --- !u!1 &878062812362885463
 GameObject:
   m_ObjectHideFlags: 0

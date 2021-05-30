@@ -13,7 +13,7 @@ public class SheepAI : MonoBehaviour
     [Tooltip("influences how fast sheep sees player")]
     [SerializeField] float awarenessLevel = 1.0f;
     [Tooltip("If player moves too close to enemy fov ignored!")]
-    [SerializeField] float awarenessDistance = 1.8f;
+    [SerializeField] float awarenessDistance = 0.5f;
     [SerializeField] float halfFOV = 60;
     [SerializeField] int startWayPoint = 0;
 
@@ -45,7 +45,7 @@ public class SheepAI : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
-        wallLayer = 1 << 7;
+        wallLayer = (1 << 7) | (1 << 9);
         enemyUI = transform.Find("EnemyUI");
         alertFill = enemyUI.Find("Fill").GetComponent<Image>();
         enemyUI.gameObject.SetActive(false);
