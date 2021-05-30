@@ -26,9 +26,6 @@ public class WolfController : MonoBehaviour
         cam = GetComponentInChildren<Camera>();
         controller = this.GetComponent<CharacterController>();
         player = this.transform;
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
 

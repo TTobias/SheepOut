@@ -90,6 +90,7 @@ public class SheepAI : MonoBehaviour
 
         //Update anim
         anim.SetBool("move", agent.velocity.magnitude > 0.5f);
+        anim.SetInteger("nextIdle", Random.Range(0, 2));
     }
 
     void MoveLogic()

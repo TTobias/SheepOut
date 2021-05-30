@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void Start()
@@ -23,6 +25,8 @@ public class GameManager : MonoBehaviour
         gameoverOverlay.enabled = false;
         instance.winOverlay.enabled = false;
         Paused = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void Update()
@@ -36,7 +40,8 @@ public class GameManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            TogglePause();
+            if(!Paused)
+                TogglePause();
         }
 
         if(Application.isEditor && !Paused && !WaitForContinueKey)
