@@ -14,12 +14,13 @@ public class InteractivePickup : MonoBehaviour
     
     [SerializeField] float interactDistance = 1.5f;
     [SerializeField] Transform textHUD;
-
     [SerializeField] private InteractivePickupTypes Type;
-
     [SerializeField] private float AddedStealthTime = 1.0F;
-    
     Camera cam;
+
+    [SerializeField] private bool bRequiresAngle = false;
+    [SerializeField] private float HalfAngleInteraction = 30.0F;
+    
     
     private void Start()
     {
@@ -31,7 +32,16 @@ public class InteractivePickup : MonoBehaviour
         Vector3 playerPos = SheepTarget.instance.Position;
         playerPos.y = transform.position.y;
 
-        if (Vector3.Distance(playerPos, transform.position) < interactDistance && transform.gameObject.activeSelf)
+        bool bIsInAngle = true;
+        if (bRequiresAngle)
+        {
+            float DotP = Vector3.Dot((transform.position - playerPos).normalized, transform.forward);
+            float AngleOfInteraction = Mathf.Acos(DotP);
+            AngleOfInteraction = Mathf.Rad2Deg * AngleOfInteraction;
+            bIsInAngle = AngleOfInteraction < HalfAngleInteraction;
+        }
+        
+        if (bIsInAngle && Vector3.Distance(playerPos, transform.position) < interactDistance && transform.gameObject.activeSelf)
         {
             textHUD.gameObject.SetActive(true);
             textHUD.rotation = Quaternion.Euler(0, cam.transform.rotation.eulerAngles.y, 0);
