@@ -123,8 +123,11 @@ public class GameManager : MonoBehaviour
                 FindObjectOfType<WolfController>().EnableFootstepSounds();
                 break;
             case InteractivePickup.InteractivePickupTypes.Wool:
-                woolOverlay.Take(1).First()?.gameObject.SetActive(true);
-                woolOverlay = woolOverlay.Skip(1).ToList();
+                if (woolOverlay.Count > 0)
+                {
+                    woolOverlay.Take(1).First()?.gameObject.SetActive(true);
+                    woolOverlay = woolOverlay.Skip(1).ToList();
+                }
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);
