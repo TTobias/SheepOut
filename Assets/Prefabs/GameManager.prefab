@@ -2173,7 +2173,10 @@ MonoBehaviour:
   gameoverOverlay: {fileID: 85294430252492554}
   pauseHUD: {fileID: 1953876195}
   hornOverlay: {fileID: 1895440561}
-  woolOverlay: {fileID: 1716627180}
+  woolOverlay:
+  - {fileID: 1060636098509256676}
+  - {fileID: 5948004381237208649}
+  - {fileID: 612227405510791176}
 --- !u!1 &85294430508983881
 GameObject:
   m_ObjectHideFlags: 0
