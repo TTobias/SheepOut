@@ -21,8 +21,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     private void Start()
@@ -34,8 +32,6 @@ public class GameManager : MonoBehaviour
         woolOverlay.gameObject.SetActive(false);
         
         Paused = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     private void Update()
@@ -59,6 +55,17 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 4.0f;
             else
                 Time.timeScale = 1.0f;
+        }
+
+        if(Paused)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 
