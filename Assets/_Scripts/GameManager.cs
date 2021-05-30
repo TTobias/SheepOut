@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviour
                 hornOverlay.gameObject.SetActive(true);
                 break;
             case InteractivePickup.InteractivePickupTypes.Coconuts:
+                FindObjectOfType<WolfController>().EnableFootstepSounds();
                 break;
             case InteractivePickup.InteractivePickupTypes.Wool:
                 woolOverlay.gameObject.SetActive(true);
