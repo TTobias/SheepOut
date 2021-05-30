@@ -198,10 +198,15 @@ public class SheepAI : MonoBehaviour
         float stealthDuration = SheepTarget.instance.stealthTimer;
 
         float normalizedDistance = (viewDistance - distanceToTarget) / viewDistance;
-        float increaseFactor = 0.2f + normalizedDistance * 0.8f;
-        float runFactor = WolfController.Running ? 2.4f : 1.0f;
-        if(stillInview)
-            seeTimer -= Time.deltaTime * increaseFactor * awarenessLevel * runFactor;
+        float increaseFactor = 0.15f + normalizedDistance * 0.85f;
+        float runFactor = WolfController.Running ? 1.8f : 1.0f;
+
+        float angle = Vector3.Angle(transform.forward, cam.transform.forward);
+        float outsideOfCamViewModifier = angle < 90 ? 0.4f : 1.0f;
+
+        if (stillInview)
+            seeTimer -= Time.deltaTime * increaseFactor * 
+                awarenessLevel * runFactor * outsideOfCamViewModifier;
 
 
         alertFill.fillAmount = ((stealthDuration - seeTimer) / stealthDuration);
