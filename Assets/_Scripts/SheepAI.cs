@@ -71,25 +71,29 @@ public class SheepAI : MonoBehaviour
         {
             case State.MOVE:
                 MoveLogic();
+                anim.SetBool("move", agent.velocity.magnitude > 1.2f);
                 break;
             case State.WAIT_AT_CHECKPOINT:
                 WaitAtWayPoint();
+                anim.SetBool("move", false);
                 break;
             case State.LOOK_AROUND:
                 LookAround();
+                anim.SetBool("move", false);
                 break;
             case State.SEE_PLAYER:
                 PlayerInView();
+                anim.SetBool("move", false);
                 break;
             case State.CHASE:
                 Chase();
+                anim.SetBool("move", true);
                 break;
             default:
                 break;
         }
 
         //Update anim
-        anim.SetBool("move", agent.velocity.magnitude > 0.5f);
         anim.SetInteger("nextIdle", Random.Range(0, 2));
     }
 
