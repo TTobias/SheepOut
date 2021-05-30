@@ -180,8 +180,8 @@ public class SheepAI : MonoBehaviour
             if (distanceToTarget > viewDistance * 1.2f || angle > halfFOV * 1.1f || viewBlocked)
             {
                 stillInview = false;
-                seeTimer -= Time.deltaTime * 2.4f;
-                if (seeTimer < 0.0f)
+                seeTimer += Time.deltaTime * 3.2f;
+                if (seeTimer > SheepTarget.instance.stealthTimer)
                 {
                     curState = State.MOVE;
                     enemyUI.gameObject.SetActive(false);
@@ -227,6 +227,7 @@ public class SheepAI : MonoBehaviour
         else
         {
             alertFill.color = new Color(255, 154, 0);
+            if (!stillInview) alertFill.color *= 0.6f;
         }
     }
 
