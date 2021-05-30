@@ -45,7 +45,7 @@ public class SheepAI : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
-        wallLayer = 1 << 7;
+        wallLayer = (1 << 7) | (1 << 9);
         enemyUI = transform.Find("EnemyUI");
         alertFill = enemyUI.Find("Fill").GetComponent<Image>();
         enemyUI.gameObject.SetActive(false);
