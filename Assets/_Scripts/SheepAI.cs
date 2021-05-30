@@ -71,7 +71,7 @@ public class SheepAI : MonoBehaviour
         {
             case State.MOVE:
                 MoveLogic();
-                anim.SetBool("move", agent.velocity.magnitude > 1.2f);
+                anim.SetBool("move", agent.velocity.magnitude > 0.5f);
                 break;
             case State.WAIT_AT_CHECKPOINT:
                 WaitAtWayPoint();
