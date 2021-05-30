@@ -6,6 +6,8 @@ using UnityEngine.Rendering;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+using System.Linq;
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField] Image winOverlay;
@@ -16,7 +18,7 @@ public class GameManager : MonoBehaviour
     public static bool Paused = false;
     public static bool Won = false;
     [SerializeField] private Transform hornOverlay;
-    [SerializeField] private Transform woolOverlay;
+    [SerializeField] private List<Transform> woolOverlay;
     
     private void Awake()
     {
@@ -29,7 +31,7 @@ public class GameManager : MonoBehaviour
         instance.winOverlay.enabled = false;
         
         hornOverlay.gameObject.SetActive(false);
-        woolOverlay.gameObject.SetActive(false);
+        woolOverlay.ForEach(t => t.gameObject.SetActive(false));
         
         Paused = false;
     }
@@ -121,7 +123,11 @@ public class GameManager : MonoBehaviour
                 FindObjectOfType<WolfController>().EnableFootstepSounds();
                 break;
             case InteractivePickup.InteractivePickupTypes.Wool:
-                woolOverlay.gameObject.SetActive(true);
+                if (woolOverlay.Count > 0)
+                {
+                    woolOverlay.Take(1).First()?.gameObject.SetActive(true);
+                    woolOverlay = woolOverlay.Skip(1).ToList();
+                }
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);
