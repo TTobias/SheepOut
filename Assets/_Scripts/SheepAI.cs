@@ -13,7 +13,7 @@ public class SheepAI : MonoBehaviour
     [Tooltip("influences how fast sheep sees player")]
     [SerializeField] float awarenessLevel = 1.0f;
     [Tooltip("If player moves too close to enemy fov ignored!")]
-    [SerializeField] float awarenessDistance = 1.8f;
+    [SerializeField] float awarenessDistance = 0.5f;
     [SerializeField] float halfFOV = 60;
     [SerializeField] int startWayPoint = 0;
 

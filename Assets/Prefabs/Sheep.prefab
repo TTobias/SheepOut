@@ -487,7 +487,7 @@ MonoBehaviour:
   minDistanceToWayPoint: 0.2
   viewDistance: 12
   awarenessLevel: 1
-  awarenessDistance: 1.8
+  awarenessDistance: 0.5
   halfFOV: 60
   startWayPoint: 0
   path: {fileID: 0}
