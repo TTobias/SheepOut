@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 4fe8f69633aa8824ab3ea8af40d6b04b
+guid: 7ad6f6e06dedd8746b39d3001ef75865
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
-      74: -7939422232465117443
-    second: WalkCycle
+      74: 360981576592818433
+    second: IdlePose2
   externalObjects: {}
   materials:
     materialImportMode: 2
