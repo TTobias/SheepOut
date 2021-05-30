@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform pauseHUD;
     public static bool Paused = false;
 
+    [SerializeField] private Transform hornOverlay;
+    [SerializeField] private Transform woolOverlay;
+    
     private void Awake()
     {
         instance = this;
@@ -90,5 +94,22 @@ public class GameManager : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void AddPickup(InteractivePickup.InteractivePickupTypes type)
+    {
+        switch (type)
+        {
+            case InteractivePickup.InteractivePickupTypes.Horns:
+                hornOverlay.gameObject.SetActive(true);
+                break;
+            case InteractivePickup.InteractivePickupTypes.Coconuts:
+                break;
+            case InteractivePickup.InteractivePickupTypes.Wool:
+                woolOverlay.gameObject.SetActive(true);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(type), type, null);
+        }
     }
 }
