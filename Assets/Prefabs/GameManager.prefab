@@ -2334,6 +2334,8 @@ MonoBehaviour:
   winOverlay: {fileID: 2555856487628929783}
   gameoverOverlay: {fileID: 85294430252492554}
   pauseHUD: {fileID: 1953876195}
+  hornOverlay: {fileID: 1895440561}
+  woolOverlay: {fileID: 1716627180}
 --- !u!1 &85294430508983881
 GameObject:
   m_ObjectHideFlags: 0
